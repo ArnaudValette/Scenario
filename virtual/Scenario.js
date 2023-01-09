@@ -6,15 +6,18 @@ class Scenario{
 	nextState={content:[]}
 
 	push(component){
-		const prev= [...this.content]
+		this.writeChanges(component)
 		this.content=[...this.content,component]
-		this.update({...this.previousState, content:prev},{content:this.content})
 	}
 
-	writeChanges(){
+	writeChanges(component){
+		console.log(component.nodeId)
 	}
 
-	computeDiff(){
+	eraseFile(targetComp){
+		//YOU HAVE TO PASS SCENARIO AS A PARAMATER IN ORDER FOR VIEW TO CALL WRITECHANGES
+		//THIS IS GROSS BUT AT LEAST IT WORKS
+		targetComp.removeSelf(this)
 	}
 
 	createRootComponent(name,options){
@@ -35,17 +38,23 @@ class Scenario{
 		return component
 	}
 
+	addLocalDependency(parent,child){
+		parent.addLocalDependency(child)
+		//you never need to write changes of child in this case:
+		//a component is ALWAYS exported
+		this.writeChanges(parent)
+	}
+
 	removeNode(nodeId){
-		this.findNode(nodeId)
-			.removeSelf()
-		const newContent=[]
-		for(let i=0;i<this.content.length;i++){
-			if(this.content[i].getNodeId()!==nodeId){
-				newContent.push(this.content[i])
+		const target = this.findNode(nodeId)
+		this.eraseFile(target)
+		const tempContent=[...this.content]
+		this.content=[]
+		for(let i=0;i<tempContent;i++){
+			if(tempContent[i].getNodeId()!==nodeId){
+				this.content.push(tempContent[i])
 			}
 		}
-		this.update({...this.previousState, content:[...this.content]},{content:newContent})
-		this.content=newContent
 	}
 
 	findNode(nodeId){
@@ -56,10 +65,6 @@ class Scenario{
 		}
 	}
 
-	update(prev,next){
-		this.previousState=prev
-		this.nextState=next
-	}
 
 	be(){
 		console.log(this)

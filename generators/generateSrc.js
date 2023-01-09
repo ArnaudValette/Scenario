@@ -6,7 +6,7 @@ const deps=require('../dependencies/index')
 function generateSrc(scenario){
 	const index = scenario.createRootComponent('index', {type:'rootComponent', dependencies:[]})
 	const app = scenario.createAppComponent('App',{type:'application', dependencies:[]})
-	index.addLocalDependency(app)
+	scenario.addLocalDependency(index, app)
 	return {index, app}
 }
 
