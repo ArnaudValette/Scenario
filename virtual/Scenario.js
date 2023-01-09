@@ -11,7 +11,6 @@ class Scenario{
 	}
 
 	writeChanges(component){
-		console.log(component.nodeId)
 	}
 
 	eraseFile(targetComp){
@@ -50,9 +49,9 @@ class Scenario{
 		this.eraseFile(target)
 		const tempContent=[...this.content]
 		this.content=[]
-		for(let i=0;i<tempContent;i++){
+		for(let i=0;i<tempContent.length;i++){
 			if(tempContent[i].getNodeId()!==nodeId){
-				this.content.push(tempContent[i])
+				this.push(tempContent[i])
 			}
 		}
 	}
@@ -67,7 +66,7 @@ class Scenario{
 
 
 	be(){
-		console.log(this)
+		console.log(this.content)
 	}
 }
 

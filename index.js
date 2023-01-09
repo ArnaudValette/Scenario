@@ -16,3 +16,7 @@ s.addLocalDependency(test2, test3)
 s.addLocalDependency(app, test3)
 s.addLocalDependency(test1, test3)
 s.removeNode('test3')
+
+console.log('scenario contains :')
+s.be()
+
