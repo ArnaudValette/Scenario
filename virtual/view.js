@@ -12,13 +12,29 @@ class component{
 		this.location='component'
 	}
 
-	addParentDependency(component){
+	#addParentDependency(component){
 		this.parentDependencies={...this.parentDependencies,
 			[component.getNodeId()]:{
 				path:`${component.getLocation()}/${component.getNodeId()}`,
 				name:component.getNodeId(),
 				ref:component
 			}
+		}
+	}
+
+	#removeLocalDependency(nodeId){
+		const newLocalDependencies={}
+		for(const [key,value] of Object.entries(this.localDependencies)){
+			if(value.name!==nodeId){
+				newLocalDependencies[key]=value
+			}
+		}
+		this.localDependencies=newLocalDependencies
+	}
+
+	removeSelf(){
+		for(const [key,value] of Object.entries(this.parentDependencies)){
+			value.ref.#removeLocalDependency(this.nodeId)
 		}
 	}
 
@@ -29,7 +45,7 @@ class component{
 				name:component.getNodeId(),
 				ref:component
 			}}
-		component.addParentDependency(this)
+		component.#addParentDependency(this)
 	}
 
 	getChildrenByNodeId(nodeId){

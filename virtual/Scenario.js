@@ -6,9 +6,15 @@ class Scenario{
 	nextState={content:[]}
 
 	push(component){
-		let prev= [...this.content]
+		const prev= [...this.content]
 		this.content=[...this.content,component]
 		this.update({...this.previousState, content:prev},{content:this.content})
+	}
+
+	writeChanges(){
+	}
+
+	computeDiff(){
 	}
 
 	createRootComponent(name,options){
@@ -29,10 +35,23 @@ class Scenario{
 		return component
 	}
 
+	removeNode(nodeId){
+		this.findNode(nodeId)
+			.removeSelf()
+		const newContent=[]
+		for(let i=0;i<this.content.length;i++){
+			if(this.content[i].getNodeId()!==nodeId){
+				newContent.push(this.content[i])
+			}
+		}
+		this.update({...this.previousState, content:[...this.content]},{content:newContent})
+		this.content=newContent
+	}
+
 	findNode(nodeId){
 		for(let i = 0; i<this.content.length; i++){
-			if(content.getNodeId() === nodeId){
-				return content[i]
+			if(this.content[i].getNodeId() === nodeId){
+				return this.content[i]
 			}
 		}
 	}
