@@ -2,8 +2,6 @@ const view=require('./view')
 
 class Scenario{
 	content=[]
-	previousState={content:[]}
-	nextState={content:[]}
 
 	push(component){
 		this.writeChanges(component)
@@ -66,7 +64,7 @@ class Scenario{
 
 
 	be(){
-		console.log(this.content)
+		console.log(this)
 	}
 }
 
