@@ -6,10 +6,12 @@ class component{
 	parentDependencies={}
 	nodeId
 	location
+	type
 	constructor(name,options){
 		this.moduleDependencies=deps[options.type]
 		this.nodeId=name
 		this.location='component'
+		this.type='genericComponent'
 	}
 
 	#addParentDependency(component){
@@ -68,12 +70,16 @@ class component{
 	}
 	giveDependencies(){
 	}
+	getType(){
+		return this.type
+	}
 }
 
 class rootComponent extends component{
 	constructor(name,options){
 		super(name,options)
 		this.location='root'
+		this.type='rootComponent'
 	}
 }
 
@@ -81,6 +87,7 @@ class appComponent extends component{
 	constructor(name,options){
 		super(name,options)
 		this.location='root'
+		this.type='applicationComponent'
 	}
 }
 

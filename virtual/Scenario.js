@@ -1,4 +1,5 @@
 const view=require('./view')
+const {translateToComponent}=require('../generators/generateSrc')
 
 class Scenario{
 	content=[]
@@ -9,6 +10,11 @@ class Scenario{
 	}
 
 	writeChanges(component){
+		//need a translator for :
+		//index 
+		//app
+		//generic component
+		translateToComponent(component)
 	}
 
 	eraseFile(targetComp){

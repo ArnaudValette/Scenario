@@ -11,12 +11,6 @@ const {index, app} = generateSrc(s)
 const test1=s.createComponent('test1', {type:'component', dependencies:[]})
 const test2=s.createComponent('test2', {type:'component', dependencies:[]})
 const test3=s.createComponent('test3', {type:'component', dependencies:[]})
-s.addLocalDependency(app,test1 )
-s.addLocalDependency(test2, test3)
-s.addLocalDependency(app, test3)
-s.addLocalDependency(test1, test3)
-s.removeNode('test3')
 
-console.log('scenario contains :')
 s.be()
 
