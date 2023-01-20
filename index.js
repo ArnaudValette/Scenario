@@ -12,5 +12,7 @@ const test1=s.createComponent('test1', {type:'component', dependencies:[]})
 const test2=s.createComponent('test2', {type:'component', dependencies:[]})
 const test3=s.createComponent('test3', {type:'component', dependencies:[]})
 
-s.be()
+s.addLocalDependency(test1, app)
+
+
 

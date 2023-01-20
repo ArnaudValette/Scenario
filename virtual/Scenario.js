@@ -1,5 +1,6 @@
 const view=require('./view')
 const {translateToComponent}=require('../generators/generateSrc')
+const {refreshImports}=require('../generators/refreshers')
 
 class Scenario{
 	content=[]
@@ -15,6 +16,10 @@ class Scenario{
 		//app
 		//generic component
 		translateToComponent(component)
+	}
+
+	updateImports(parent, newBorn){
+		refreshImports(parent, newBorn)
 	}
 
 	eraseFile(targetComp){
@@ -45,7 +50,7 @@ class Scenario{
 		parent.addLocalDependency(child)
 		//you never need to write changes of child in this case:
 		//a component is ALWAYS exported
-		this.writeChanges(parent)
+		this.updateImports(parent,child)
 	}
 
 	removeNode(nodeId){

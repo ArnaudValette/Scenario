@@ -5,6 +5,26 @@ const {log}=require('./tools')
 function handlePath(fromSrc){
 	return path.join(process.cwd(),'./template/src/',fromSrc==='root'?'.':'components/')
 }
+function handleFile(pathName, name){
+	return path.join(handlePath(pathName), name)
+}
+
+function readJsx(pathName, name){
+	return fs.readFileSync(handleFile(pathName, name), 'utf-8')
+}
+
+function writeJsx(data, parent){
+	const pathName = handlePath(parent.location)
+	const writer = fs.createWriteStream(path.join(pathName, `${parent.getNodeId()}.jsx`),{
+		flags: 'w'})
+	console.log(data)
+	for(let i = 0 ; i< data.length; i++){
+		console.log(data[i])
+		writer.write(data[i])
+	}
+	writer.end()
+
+}
 
 function createDir(name,path){
 	if(!fs.existsSync(`${path}${name?name:''}`)){
@@ -25,8 +45,11 @@ function createFile(name,pathName,content){
 		if(!fs.existsSync(pathName)){
 			createDir('',pathName)
 		}
-		fs.writeFileSync(path.join(pathName, name),content)
-		return log('file successfully created')
+		if(!fs.existsSync(path.join(pathName,name))){
+			fs.writeFileSync(path.join(pathName, name),content)
+			return log('file successfully created')
+		}
+		return log('File already exists')
 	}
 	catch(err){
 		console.log(err)
@@ -39,4 +62,6 @@ module.exports={
 	createDir,
 	createCss,
 	createJsx,
+	readJsx,
+	writeJsx,
 }

@@ -5,7 +5,7 @@ const deps=require('../dependencies/index')
 function generateContent(name){
 	return `function ${name}(){
 	return(
-		<div className='App'>
+		<div className='${name}'>
 	</div>
 	)
 }
@@ -24,45 +24,37 @@ function generateSrc(scenario){
 }
 
 function translateToComponent(component){
-	switch(component.getType()){
-		case 'genericComponent':
-			translateToGeneric(component)
-			break;
-		case 'rootComponent':
-			translateToRoot(component)
-			break;
-		case 'applicationComponent':
-			translateToApp(component)
-			break;
-		default:
-			break;
-	}
+	const content= generateContent(component.getNodeId())
+	const defaultExport = generateDefaultExport(component.getNodeId())
+	fileHelpers.createJsx(component.getNodeId(), component.location, `${content}${defaultExport}`)
+	fileHelpers.createCss(component.getNodeId(), component.location)
 }
 
-function translateToApp(app){
-	const content= generateContent(app.nodeId)
-	const defaultExport = generateDefaultExport(app.nodeId)
-	fileHelpers.createJsx(app.nodeId ,app.location, `${content}${defaultExport}`)
-	fileHelpers.createCss(app.nodeId, app.location)
-
-}
-function translateToGeneric(component){
-
-	const content= generateContent(component.nodeId)
-	const defaultExport = generateDefaultExport(component.nodeId)
-	fileHelpers.createJsx(component.nodeId ,component.location, `${content}${defaultExport}`)
-	fileHelpers.createCss(component.nodeId, component.location)
+function generateImport(parent,newBorn){
+	//parent.location
+	//newBorn.location
+	const fullPath = findRelativeLocation(parent.location, newBorn.location)
+	return `import ${newBorn.getNodeId()} from "${fullPath}${newBorn.getNodeId()}"\n`
 }
 
-function translateToRoot(root){
-	const content= generateContent(root.nodeId)
-	const defaultExport = generateDefaultExport(root.nodeId)
-	fileHelpers.createJsx(root.nodeId ,root.location, `${content}${defaultExport}`)
-	fileHelpers.createCss(root.nodeId, root.location)
+function findRelativeLocation(pLoc,cLoc){
+	//root component 
+	//root = level 0 
+	//component = level 1
+	//if(cLoc < pLoc) --> ../ cLoc is root and pLoc is comp
+	//if(pLoc < cLoc) --> ./${location}/ pLoc is root and cLoc is comp
+	//if(cLoc === pLoc) --> ./ 
+	const p = findLevel(pLoc)
+	const c = findLevel(cLoc)
+	return p<c ? `./${cLoc}/` : p>c ? `../` : pLoc === cLoc ? `./` : `../${cLoc}/`
 }
 
+function findLevel(loc){
+	return loc === 'root' ? 0 : 1
+}
 
 module.exports={
 	generateSrc,
 	translateToComponent,
+	generateImport,
 }
