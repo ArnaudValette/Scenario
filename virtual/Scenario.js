@@ -18,13 +18,11 @@ class Scenario{
 		translateToComponent(component)
 	}
 
-	updateImports(parent, newBorn){
-		refreshImports(parent, newBorn)
+	updateImports(parent, newBorn, options){
+		refreshImports(parent, newBorn, options)
 	}
 
-	eraseFile(targetComp){
-		//YOU HAVE TO PASS SCENARIO AS A PARAMATER IN ORDER FOR VIEW TO CALL WRITECHANGES
-		//THIS IS GROSS BUT AT LEAST IT WORKS
+	#eraseFile(targetComp){
 		targetComp.removeSelf(this)
 	}
 
@@ -50,12 +48,12 @@ class Scenario{
 		parent.addLocalDependency(child)
 		//you never need to write changes of child in this case:
 		//a component is ALWAYS exported
-		this.updateImports(parent,child)
+		this.updateImports(parent,child, {flags : 'u'})
 	}
 
 	removeNode(nodeId){
 		const target = this.findNode(nodeId)
-		this.eraseFile(target)
+		this.#eraseFile(target)
 		const tempContent=[...this.content]
 		this.content=[]
 		for(let i=0;i<tempContent.length;i++){

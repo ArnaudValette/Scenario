@@ -1,12 +1,24 @@
-const {readJsx, writeJsx}=require('../tools/fileHelpers')
+const {readJsx, writeJsx, deleteFromJsx}=require('../tools/fileHelpers')
 const {generateImport} = require('./generateSrc')
 
-function refreshImports(parent, newBorn){
+function refreshImports(parent, newBorn, options){
 	const data = readJsx(parent.location, `${parent.getNodeId()}.jsx`)
 	const importStr = generateImport(parent,newBorn)
-	if(!importAlreadyThere(data, importStr)){
-		return writeJsx([importStr, data], parent)
+	switch(options.flags){
+		case 'u':
+		if(!importAlreadyThere(data, importStr)){
+			return writeJsx([importStr, data], parent)
+		}
+			break;
+		case 'r':
+			if(importAlreadyThere(data,importStr, parent)){
+				return deleteFromJsx(data, importStr, parent)
+			}
+				break;
+		default:
+			return
 	}
+
 }
 
 function importAlreadyThere(data,str){
@@ -15,7 +27,6 @@ function importAlreadyThere(data,str){
 	let s = str.substring(0, str.length-1)
 	for(let i = 0; i < d.length; i++){
 		if(d[i] === s){
-			console.log('already existstststsstststs')
 			return true
 		}
 	}

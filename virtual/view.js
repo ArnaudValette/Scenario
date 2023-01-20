@@ -36,8 +36,8 @@ class component{
 
 	removeSelf(scenario){
 		for(const [key,value] of Object.entries(this.parentDependencies)){
-			scenario.writeChanges(value.ref)
 			value.ref.#removeLocalDependency(this.nodeId)
+			scenario.updateImports(value.ref, this, {flags : 'r'})
 		}
 	}
 
