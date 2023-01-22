@@ -101,8 +101,9 @@ class appComponent extends component{
 	addTree(newRoot){
 		this.trees[newRoot.getName()]=newRoot
 	}
-	addChildRoute(oneRoot, newBorn){
-		this.trees[oneRoot.getName()].addChild(newBorn)
+	addChildRoute(parent, newBorn){
+		parent.addChild(newBorn)
+		//this.trees[oneRoot.getName()].addChild(newBorn)
 	}
 	logTrees(){
 		console.log(this.trees)
@@ -167,10 +168,14 @@ class Route{
 	}
 
 	doRecursivePresentation(level){
-		console.log(`${this.generateTabs(level)}---<Route path='${this.location}' element={<${this.component.getNodeId()}/>}/>`)
+		if(this.childs && Object.keys(this.childs).length === 0){
+			return console.log(`${this.generateTabs(level)}<Route path='${this.location}' element={<${this.component.getNodeId()}/>}/>`)
+		}
+		console.log(`${this.generateTabs(level)}<Route path='${this.location}' element={<${this.component.getNodeId()}/>}>`)
 			for(const [key,value] of Object.entries(this.childs)){
 				value.doRecursivePresentation(level+1)
 			}
+		console.log(`${this.generateTabs(level)}</Route>`)
 	}
 
 	generateTabs(times){

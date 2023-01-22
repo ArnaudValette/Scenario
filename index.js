@@ -34,8 +34,9 @@ const levelOneChild=new Route(test2, 'about')
 app.addTree(rootRoute)
 app.addChildRoute(rootRoute, levelOneChild)
 
-const sibling = new Route(test3, '/otherRouter')
-app.addTree(sibling)
+const levelTwoChild = new Route(test3, 'this')
+
+app.addChildRoute(levelOneChild, levelTwoChild)
 
 app.logTrees()
 app.generateJsxRouting()
