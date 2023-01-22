@@ -3,7 +3,7 @@ const path = require('path')
 const {log}=require('./tools')
 
 function handlePath(component){
-	return path.join(process.cwd(),'./template/src/',component.getLocation()==='root'?'.':'components/')
+	return path.join(process.cwd(),'./template/src/',component.getLocation()==='root'?'.':`components/${component.getNodeId()}`)
 }
 
 function handleFile(component,extension){
@@ -59,9 +59,9 @@ function writeJsx(component, data){
 
 }
 
-function createDir(name,path){
-	if(!fs.existsSync(`${path}${name?name:''}`)){
-		return fs.mkdirSync(`${path}${name}`)
+function createDir(path){
+	if(!fs.existsSync(path)){
+		return fs.mkdirSync(path,{recursive:true})
 	}
 	return log('directory already exists')
 }
@@ -70,7 +70,8 @@ function createDir(name,path){
 function createFile(component, content, extension){
 	try{
 		if(!fs.existsSync(handlePath(component))){
-			createDir('',handlePath(component))
+			createDir(handlePath(component))
+			//createDir('',handlePath(component))
 		}
 		if(!fs.existsSync(handleFile(component,extension))){
 			fs.writeFileSync(handleFile(component,extension),content)

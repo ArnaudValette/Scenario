@@ -31,7 +31,7 @@ Disallow:`
 
 function createPublicFiles(fileName, pathName, content){
 	if(!fs.existsSync(pathName)){
-		fileHelpers.createDir('',pathName)
+		fs.mkdirSync(pathName)
 	}
 	if(!fs.existsSync(path.join(pathName,fileName))){
 		fs.writeFileSync(path.join(pathName,fileName),content)

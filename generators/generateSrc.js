@@ -1,6 +1,6 @@
 const {component, rootComponent, appComponent} = require('../virtual/view')
 const deps=require('../dependencies/index')
-
+const fs=require('fs')
 
 
 function generateSrc(scenario){
