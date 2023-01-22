@@ -58,6 +58,13 @@ class component{
 			}
 		}
 	}
+	getChildrenByType(type){
+		for(const [key,value] of Object.entries(this.localDependencies)){
+			if(value.ref.getType()=type){
+				return value.ref
+			}
+		}
+	}
 
 	be(){
 		console.log(this)
@@ -68,7 +75,8 @@ class component{
 	getNodeId(){
 		return this.nodeId
 	}
-	giveDependencies(){
+	getModuleDependencies(){
+		return this.moduleDependencies
 	}
 	getType(){
 		return this.type

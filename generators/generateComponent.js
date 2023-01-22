@@ -1,19 +1,25 @@
 const fileHelpers=require('../tools/fileHelpers')
-
+const contents=require('../components/content')
+const {dependencies}=require('../dependencies/index')
 
 function generateImport(parent,newBorn){
 	const fullPath = findRelativeLocation(parent.location, newBorn.location)
 	return `import ${newBorn.getNodeId()} from "${fullPath}${newBorn.getNodeId()}"`
 }
 
-function generateContent(name){
-	return `function ${name}(){
-	return(
-		<div className='${name}'>
-	</div>
-	)
+function generateModuleImports(component){
+	const modules=component.getModuleDependencies()
+	if(!modules) return ''
+	const results=[]
+	for(let i = 0; i< modules.length; i++){
+		results.push(dependencies[modules[i]])
+	}
+	results.push('')
+	return results.join('\n')
 }
-`
+
+function generateContent(component){
+	return contents[component.getType()](component)
 }
 
 function generateDefaultExport(name){
@@ -22,9 +28,10 @@ function generateDefaultExport(name){
 
 function translateToComponent(component){
 	//TODO:generateModuleExports
-	const content= generateContent(component.getNodeId())
+	const content= generateContent(component)
 	const defaultExport = generateDefaultExport(component.getNodeId())
-	fileHelpers.createFile(component, `${content}${defaultExport}`, '.jsx')
+	const moduleImports = generateModuleImports(component)
+	fileHelpers.createFile(component, `${moduleImports}${content}${defaultExport}`, '.jsx')
 	fileHelpers.createFile(component, '', '.css')
 }
 

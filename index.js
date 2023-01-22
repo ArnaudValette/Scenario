@@ -16,7 +16,6 @@ const test3=s.createComponent('test3', {type:'component', dependencies:[]})
 
 s.addLocalDependency(test1, app)
 //how do you kill local dependencies ?
-s.removeNode('App')
 
 
 
