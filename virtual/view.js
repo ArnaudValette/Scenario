@@ -108,9 +108,12 @@ class appComponent extends component{
 		console.log(this.trees)
 	}
 	generateJsxRouting(){
+		const result=[]
 		for(const [key,value] of Object.entries(this.trees)){
-			value.doRecursivePresentation(0)
+			result.push(value.doRecursivePresentation(0, []))
 		}
+
+		console.log(result)
 	}
 	//add routes
 	//pass a component and an url
@@ -166,15 +169,16 @@ class Route{
 		return this.name
 	}
 
-	doRecursivePresentation(level){
+	doRecursivePresentation(level, arr){
 		if(this.childs && Object.keys(this.childs).length === 0){
-			return console.log(`${this.generateTabs(level)}<Route path='${this.location}' element={<${this.component.getNodeId()}/>}/>`)
+			return [(`<Route path='${this.location}' element={<${this.component.getNodeId()}/>}/>`)]
 		}
-		console.log(`${this.generateTabs(level)}<Route path='${this.location}' element={<${this.component.getNodeId()}/>}>`)
+		arr.push(`<Route path='${this.location}' element={<${this.component.getNodeId()}/>}>`)
 			for(const [key,value] of Object.entries(this.childs)){
-				value.doRecursivePresentation(level+1)
+				arr.push(value.doRecursivePresentation(level+1,[]))
 			}
-		console.log(`${this.generateTabs(level)}</Route>`)
+		arr.push(`</Route>`)
+		return arr
 	}
 
 	generateTabs(times){

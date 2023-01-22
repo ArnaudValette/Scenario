@@ -41,7 +41,7 @@ s.addChildRoute(rootRoute,levelOneChild)
 const levelTwoChild = s.createRoute(test3, 'this')
 
 //app.addChildRoute(levelOneChild, levelTwoChild)
-s.addChildRoute(levelOneChild, levelTwoChild)
+s.addChildRoute(rootRoute, levelTwoChild)
 
 //app.generateJsxRouting()
 s.displayRouter()
