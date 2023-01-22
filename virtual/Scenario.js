@@ -2,6 +2,7 @@ const view=require('./view')
 const {translateToComponent}=require('../generators/generateComponent')
 const {refreshImports}=require('../generators/refreshers')
 const {Route}=require('./view')
+const {parseAndAdd}=require('../tools/parseHelpers')
 
 class Scenario{
 	content=[]
@@ -70,11 +71,13 @@ class Scenario{
 	addRouterTree(newTree){
 		this.app().addTree(newTree)
 		this.addLocalDependency(this.app(), newTree.component)
+		parseAndAdd(this.app())
 	}
 
 	addChildRoute(parent,newBorn){
 		this.app().addChildRoute(parent,newBorn)
 		this.addLocalDependency(this.app(), newBorn.component)
+		parseAndAdd(this.app())
 	}
 
 	displayRouter(){
