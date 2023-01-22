@@ -1,6 +1,7 @@
 const view=require('./view')
 const {translateToComponent}=require('../generators/generateComponent')
 const {refreshImports}=require('../generators/refreshers')
+const {Route}=require('./view')
 
 class Scenario{
 	content=[]
@@ -61,6 +62,28 @@ class Scenario{
 		}
 	}
 
+	//Specific to applicationComponent:
+	app(){
+		return this.findNode('App')
+	}
+
+	addRouterTree(newTree){
+		this.app().addTree(newTree)
+		this.addLocalDependency(this.app(), newTree.component)
+	}
+
+	addChildRoute(parent,newBorn){
+		this.app().addChildRoute(parent,newBorn)
+		this.addLocalDependency(this.app(), newBorn.component)
+	}
+
+	displayRouter(){
+		this.app().generateJsxRouting()
+	}
+
+	createRoute(component, location){
+		return new Route(component,location)
+	}
 
 	be(){
 		console.log(this)

@@ -103,7 +103,6 @@ class appComponent extends component{
 	}
 	addChildRoute(parent, newBorn){
 		parent.addChild(newBorn)
-		//this.trees[oneRoot.getName()].addChild(newBorn)
 	}
 	logTrees(){
 		console.log(this.trees)

@@ -26,20 +26,25 @@ s.addLocalDependency(test1, app)
 //test : Routes handling
 
 //<Route path='/' element={<Test1/>}/>
-const rootRoute= new Route(test1)
-
+//const rootRoute= new Route(test1)
+const rootRoute= s.createRoute(test1)
 //<Route path='about' element={<Test2/>}/>
-const levelOneChild=new Route(test2, 'about')
+//const levelOneChild=new Route(test2, 'about')
+const levelOneChild= s.createRoute(test2, 'about')
 
-app.addTree(rootRoute)
-app.addChildRoute(rootRoute, levelOneChild)
+//app.addTree(rootRoute)
+//app.addChildRoute(rootRoute, levelOneChild)
+s.addRouterTree(rootRoute)
+s.addChildRoute(rootRoute,levelOneChild)
 
-const levelTwoChild = new Route(test3, 'this')
+//const levelTwoChild = new Route(test3, 'this')
+const levelTwoChild = s.createRoute(test3, 'this')
 
-app.addChildRoute(levelOneChild, levelTwoChild)
+//app.addChildRoute(levelOneChild, levelTwoChild)
+s.addChildRoute(levelOneChild, levelTwoChild)
 
-app.logTrees()
-app.generateJsxRouting()
+//app.generateJsxRouting()
+s.displayRouter()
 
 
 
