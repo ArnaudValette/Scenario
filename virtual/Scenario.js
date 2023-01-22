@@ -1,21 +1,13 @@
 const view=require('./view')
-const {translateToComponent}=require('../generators/generateSrc')
+const {translateToComponent}=require('../generators/generateComponent')
 const {refreshImports}=require('../generators/refreshers')
 
 class Scenario{
 	content=[]
 
 	push(component){
-		this.writeChanges(component)
-		this.content=[...this.content,component]
-	}
-
-	writeChanges(component){
-		//need a translator for :
-		//index 
-		//app
-		//generic component
 		translateToComponent(component)
+		this.content=[...this.content,component]
 	}
 
 	updateImports(parent, newBorn, options){
@@ -46,8 +38,6 @@ class Scenario{
 
 	addLocalDependency(parent,child){
 		parent.addLocalDependency(child)
-		//you never need to write changes of child in this case:
-		//a component is ALWAYS exported
 		this.updateImports(parent,child, {flags : 'u'})
 	}
 

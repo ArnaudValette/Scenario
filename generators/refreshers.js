@@ -1,18 +1,21 @@
-const {readJsx, writeJsx, deleteFromJsx}=require('../tools/fileHelpers')
-const {generateImport} = require('./generateSrc')
+const {readFile, writeJsx, deleteFromJsx}=require('../tools/fileHelpers')
+const {generateImport} = require('./generateComponent')
+
 
 function refreshImports(parent, newBorn, options){
-	const data = readJsx(parent.location, `${parent.getNodeId()}.jsx`)
+	const data = readFile(parent,'.jsx')
 	const importStr = generateImport(parent,newBorn)
 	switch(options.flags){
+
 		case 'u':
 		if(!importAlreadyThere(data, importStr)){
-			return writeJsx([importStr, data], parent)
+			return writeJsx(parent ,[importStr, data])
 		}
 			break;
+
 		case 'r':
-			if(importAlreadyThere(data,importStr, parent)){
-				return deleteFromJsx(data, importStr, parent)
+			if(importAlreadyThere(data,importStr,true)){
+				return deleteFromJsx(parent , data, importStr)
 			}
 				break;
 		default:
@@ -21,12 +24,13 @@ function refreshImports(parent, newBorn, options){
 
 }
 
-function importAlreadyThere(data,str){
+function importAlreadyThere(data,str,test){
+	if(test)console.log(str)
 	let d = data
 	d = d.split('\n')
-	let s = str.substring(0, str.length-1)
 	for(let i = 0; i < d.length; i++){
-		if(d[i] === s){
+		if(d[i] === str){
+			if(test)console.log('found')
 			return true
 		}
 	}

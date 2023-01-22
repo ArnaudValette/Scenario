@@ -18,7 +18,7 @@ function generateHtmlRoot(projectName,description){
 		<div id="application"></div>
 	</body>
 </html>`
-	fileHelpers.createFile('index.html', path.join(process.cwd(), './template/public/'),content)
+	createPublicFiles('index.html', path.join(process.cwd(), './template/public/'),content)
 
 }
 
@@ -26,8 +26,18 @@ function generateRobots(){
 	const content=`# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:`
-	fileHelpers.createFile('robots.txt', path.join(process.cwd(),'./template/public/'), content)
+	createPublicFiles('robots.txt', path.join(process.cwd(),'./template/public/'), content)
+}
 
+function createPublicFiles(fileName, pathName, content){
+	if(!fs.existsSync(pathName)){
+		fileHelpers.createDir('',pathName)
+	}
+	if(!fs.existsSync(path.join(pathName,fileName))){
+		fs.writeFileSync(path.join(pathName,fileName),content)
+		return console.log('Public file created')
+	}
+	return console.log('Public file already exists')
 }
 
 module.exports={
