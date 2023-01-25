@@ -18,20 +18,25 @@ function parseAndAdd(application){
 	
 }
 
-function parseStartEndAndAppendBetweenInFile(indexComponent, startStr,endStr, arrOfData){
-	const content= readFile(indexComponent,'.jsx').split('\n')
+function parseStartEndAndAppendBetweenInFile(indexComponent, startStr,endStr, arrOfData,extension){
+	const content= readFile(indexComponent,extension?extension:'.jsx').split('\n')
+	if(extension==='.js'){
+		console.log('reducer : ')
+		console.log(content)
+		console.log('____________________')
+	}
 	const [start,end] = parse(content,{getInRange:{start:startStr, end:endStr}})
 	if(start === -1 || end === -1 ) return
 	const innerData=content.slice(start+1,end)
 	const newData=innerData.concat(arrOfData)
 	let result= [... new Set(newData.flat())]
-	return addAtIndex({start:start+1,end}, content, result,indexComponent)
+	return addAtIndex({start:start+1,end}, content, result,indexComponent, extension)
 }
 
 
-function addAtIndex(index, data, add,application){
+function addAtIndex(index, data, add,application,extension){
 	const result=[...data.slice(0,index.start),...add,...data.slice(index.end,data.length) ]
-	writeJsx(application, result)
+	writeJsx(application, result,extension)
 
 }
 

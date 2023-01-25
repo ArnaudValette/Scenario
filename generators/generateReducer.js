@@ -1,3 +1,4 @@
+const {parseStartEndAndAppendBetweenInFile}=require('../tools/parseHelpers')
 const fileHelpers=require('../tools/fileHelpers') 
 const contents=require('../components/content')
 function generateContent(reducer){
@@ -12,8 +13,10 @@ function pushReducer(name,reducer){
 	const newData=contents['reducerStructure'](name).split('\n')
 	const oldData=fileHelpers.readFile(reducer,'.js')
 	if(!functionAlreadyThere(oldData,newData[0])){
-		return fileHelpers.writeJsx(reducer, [newData.join('\n'),oldData],'.js')
+		fileHelpers.writeJsx(reducer, [newData.join('\n'),oldData],'.js')
 	}
+	parseStartEndAndAppendBetweenInFile(reducer,
+	`const ${reducer.getNodeId()}={`,`}`,[`\t${name},`],'.js')
 }
 
 

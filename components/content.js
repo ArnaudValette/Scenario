@@ -1,6 +1,5 @@
 function reducerComponent(name){
-	return `const ${name}{
-
+	return `const ${name}={
 }
 
 export default ${name}`
