@@ -32,3 +32,16 @@ const dialog = s.createReducer('dialog')
 s.feedReducer(dialog , 'one')
 
 s.index().logReducers()
+
+
+//TODO:
+//add navbar creation via routes 
+//
+//TODO:
+//add reducer file generation
+//createReducer should create a file structured as follows :
+//const ${name}={
+//
+//}
+//
+//export default ${name}

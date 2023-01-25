@@ -1,3 +1,11 @@
+function reducerComponent(name){
+	return `const ${name}{
+
+}
+
+export default ${name}`
+}
+
 function rootComponent(component){
 	return `const reducers = combineReducers({
 })
@@ -70,4 +78,5 @@ module.exports={
 	genericComponent,
 	layoutComponent,
 	routeComponent,
+	reducerComponent,
 }
