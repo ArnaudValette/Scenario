@@ -11,39 +11,28 @@ const s = new Scenario()
 
 const {index, app} = generateSrc(s)
 
-const test1=s.createComponent('test1', {type:'genericComponent', dependencies:[]})
-const test2=s.createComponent('test2', {type:'genericComponent', dependencies:[]})
-const test3=s.createComponent('test3', {type:'genericComponent', dependencies:[]})
+const test1=s.createComponent('Test1', {type:'genericComponent', dependencies:[]})
+const test2=s.createComponent('Test2', {type:'genericComponent', dependencies:[]})
+const test3=s.createComponent('Test3', {type:'genericComponent', dependencies:[]})
 
 s.addLocalDependency(test1, app)
-//
-//////////////////////////////////////////////////////
-//how do you kill local dependencies ?
-//s.removeNode('app') OR s.removeNode(app.getNodeId())
-//_________________________________________________
 
-////////////////////////////////////////////////////
-//test : Routes handling
 
-//<Route path='/' element={<Test1/>}/>
-//const rootRoute= new Route(test1)
 const rootRoute= s.createRoute(test1)
-//<Route path='about' element={<Test2/>}/>
-//const levelOneChild=new Route(test2, 'about')
 const levelOneChild= s.createRoute(test2, 'about')
-
-//app.addTree(rootRoute)
-//app.addChildRoute(rootRoute, levelOneChild)
-s.addRouterTree(rootRoute)
-s.addChildRoute(rootRoute,levelOneChild)
-
-//const levelTwoChild = new Route(test3, 'this')
 const levelTwoChild = s.createRoute(test3, 'this')
 
-//app.addChildRoute(levelOneChild, levelTwoChild)
+//                rootRoute === is layout component
+//                 /     \
+//                /       \
+//      levelOneChild    levelTwoChild
+//
+//      you must be able to import .css automaticxcvxvd
+//        
+s.addRouterTree(rootRoute)
+s.addChildRoute(rootRoute,levelOneChild)
 s.addChildRoute(rootRoute, levelTwoChild)
 
-//app.generateJsxRouting()
 s.displayRouter()
 
 

@@ -21,8 +21,6 @@ function applicationComponent(component){
 	return `function ${component.getNodeId()}(){
 	return(
 		<>
-			<div className='${component.getNodeId()}'>
-			</div>
 		</>
 	)
 }

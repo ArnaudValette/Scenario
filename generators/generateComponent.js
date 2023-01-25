@@ -7,6 +7,10 @@ function generateImport(parent,newBorn){
 	return `import ${newBorn.getNodeId()} from "${fullPath}${newBorn.getNodeId()}"`
 }
 
+function generateMandatoryImports(component){
+	return `import './${component.getNodeId()}.css'\n`
+}
+
 function generateModuleImports(component){
 	const modules=component.getModuleDependencies()
 	if(!modules) return ''
@@ -31,7 +35,8 @@ function translateToComponent(component){
 	const content= generateContent(component)
 	const defaultExport = generateDefaultExport(component.getNodeId())
 	const moduleImports = generateModuleImports(component)
-	fileHelpers.createFile(component, `${moduleImports}${content}${defaultExport}`, '.jsx')
+	const mandatoryImports= generateMandatoryImports(component)
+	fileHelpers.createFile(component, `${mandatoryImports}${moduleImports}${content}${defaultExport}`, '.jsx')
 	fileHelpers.createFile(component, '', '.css')
 }
 
