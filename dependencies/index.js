@@ -1,5 +1,5 @@
 const rootComponent=[
-	'react', 'reactDOMClient', 'Provider', 'createStore','reducer','Router'
+	'react', 'reactDOMClient', 'Provider', 'createStore','Router'
 ]
 
 const applicationComponent=[
@@ -15,7 +15,6 @@ const dependencies={
 	reactDOMClient :`import * as ReactDOMClient from 'react-dom/client'`,
 	Provider:`import {Provider} from 'react-redux'`,
 	createStore:`import {createStore,combineReducers} from 'redux'`,
-	reducer :`import reducer from './reducers/reducer'`,
 	Router:`import {BrowserRouter as Router} from 'react-router-dom'`,
 	Routes:`import {Routes,Route} from 'react-router-dom'`,
 	Outlet:`import {Outlet} from 'react-router-dom'`
