@@ -10,6 +10,10 @@ const layoutComponent=[
 	'Outlet'
 ]
 
+const navComponent=[
+	'Link'
+]
+
 const dependencies={
 	react : `import react from 'react'`,
 	reactDOMClient :`import * as ReactDOMClient from 'react-dom/client'`,
@@ -17,7 +21,8 @@ const dependencies={
 	createStore:`import {createStore,combineReducers} from 'redux'`,
 	Router:`import {BrowserRouter as Router} from 'react-router-dom'`,
 	Routes:`import {Routes,Route} from 'react-router-dom'`,
-	Outlet:`import {Outlet} from 'react-router-dom'`
+	Outlet:`import {Outlet} from 'react-router-dom'`,
+	Link:`import {Link} from 'react-router-dom'`,
 }
 
 module.exports={
@@ -25,4 +30,5 @@ module.exports={
 	applicationComponent,
 	layoutComponent,
 	dependencies,
+	navComponent,
 }

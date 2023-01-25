@@ -1,4 +1,5 @@
 const deps=require('../dependencies/index')
+const {parseAndAdd} = require('../tools/parseHelpers')
 
 class component{
 	moduleDependencies
@@ -106,13 +107,50 @@ class rootComponent extends component{
 	}
 }
 
+class navComponent extends component{
+	trees={}
+	constructor(name,options){
+		super(name,options)
+		this.location='component'
+		this.type='navComponent'
+	}
+
+	logTrees(){
+		console.log(this.trees)
+	}
+
+	follow(trees){
+		this.trees=trees
+	}
+
+	createMap(){
+		parseAndAdd(this,'<nav>','</nav>',this.generateLinksRouting())
+	}
+
+	generateLinksRouting(){
+		const result=[]
+		for(const [key,value] of Object.entries(this.trees)){
+			value.doRecursiveLinks(0, '/',result)
+		}
+
+		return [`\t\t<nav>`,...result,`\t\t</nav>`]
+	}
+}
+
 class appComponent extends component{
 	trees={}
+	nav
 	constructor(name,options){
 		super(name,options)
 		this.location='root'
 		this.type='applicationComponent'
 	}
+
+	subscribeNav(navComponent){
+		this.nav=navComponent
+		navComponent.follow(this.trees)
+	}
+
 	addTree(newRoot){
 		this.trees[newRoot.getName()]=newRoot
 	}
@@ -136,12 +174,12 @@ class Route{
 	childs={}
 	component
 	name
-	location
+	to
 
-	constructor(component,location){
+	constructor(component,to){
 		this.name=component.getNodeId()
 		this.component=component
-		this.location=location?location:'/'
+		this.to=to?to:'/'
 	}
 
 	addChild(child){
@@ -154,15 +192,34 @@ class Route{
 
 	doRecursivePresentation(level, arr){
 		if(this.childs && Object.keys(this.childs).length === 0){
-			return arr.push(`${this.generateTabs(level)}<Route path='${this.location}' element={<${this.component.getNodeId()}/>}/>`)
+			return arr.push(`${this.generateTabs(level)}<Route path='${this.to}' element={<${this.component.getNodeId()}/>}/>`)
 		}
-		arr.push(`${this.generateTabs(level)}<Route path='${this.location}' element={<${this.component.getNodeId()}/>}>`)
+		arr.push(`${this.generateTabs(level)}<Route path='${this.to}' element={<${this.component.getNodeId()}/>}>`)
 			for(const [key,value] of Object.entries(this.childs)){
 				value.doRecursivePresentation(level+1,arr)
 			}
 		arr.push(`${this.generateTabs(level)}</Route>`)
 		return arr
 	}
+
+	doRecursiveLinks(level,actualPath,arr){
+		if(this.childs && Object.keys(this.childs).length===0){
+			if(actualPath==='/'){
+				if(this.to==='/'){
+					return arr.push(`\t\t\t<Link to='/'/>`)
+				}
+			}
+			return arr.push(`\t\t\t<Link to='${actualPath}${this.to}'/>`)
+		}
+		actualPath=`${actualPath}${this.to}`
+		arr.push(`\t\t\t<Link to='${actualPath}'/>`)
+		actualPath=`${actualPath}/`
+		for(const [key,value] of Object.entries(this.childs)){
+			value.doRecursiveLinks(level+1,actualPath,arr)
+		}
+		return arr
+	}
+
 
 	generateTabs(times){
 		let result =`` 
@@ -180,7 +237,7 @@ class routeComponent extends component{
 		super(name,options)
 		this.location='route'
 		this.type=options.type
-		this.route=new Route(this, this.location)
+		this.route=new Route(this, options.to)
 	}
 	
 	getRoute(){
@@ -194,4 +251,5 @@ module.exports={
 	rootComponent,
 	routeComponent,
 	Route,
+	navComponent,
 }

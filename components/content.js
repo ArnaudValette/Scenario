@@ -34,6 +34,16 @@ function applicationComponent(component){
 
 }
 
+function navComponent(component){
+	return `function ${component.getNodeId()}(){
+	return(
+		<nav>
+		</nav>
+	)
+}
+`
+}
+
 function genericComponent(component){
 	return `function ${component.getNodeId()}(){
 	return(
@@ -88,4 +98,5 @@ module.exports={
 	routeComponent,
 	reducerComponent,
 	reducerStructure,
+	navComponent,
 }

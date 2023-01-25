@@ -1,19 +1,19 @@
 const {readFile,writeJsx}=require('./fileHelpers')
 
-function parseAndAdd(application){
+function parseAndAdd(application,startSearch,endSearch,dataLines){
 	const content = readFile(application, '.jsx').split('\n')
-	const line = parse(content,{getLineOf:'<Routes>'})
+	const line = parse(content,{getLineOf:startSearch})
 	if(line !== -1){
-		const endLine=parse(content,{getLineOf:'</Routes>'})
+		const endLine=parse(content,{getLineOf:endSearch})
 		if(endLine !==-1){
-			return addAtIndex({start:line, end:endLine+1}, content, application.generateJsxRouting(),application)
+			return addAtIndex({start:line, end:endLine+1}, content, dataLines,application)
 
 		}
 	}
 	
 	const jsxReturn= parse(content,{getLineOf:'<>'})
 	if(jsxReturn !== -1){
-		return addAtIndex({start:jsxReturn+1, end:jsxReturn+1}, content, application.generateJsxRouting(),application)
+		return addAtIndex({start:jsxReturn+1, end:jsxReturn+1}, content, dataLines,application)
 	}
 	
 }

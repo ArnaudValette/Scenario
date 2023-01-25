@@ -21,6 +21,16 @@ class Scenario{
 		targetComp.removeSelf(this)
 	}
 
+	createNavComponent(name,options){
+		const navComponent= new view.navComponent(name,options)
+		const applicationComponent=this.app()
+		if(applicationComponent){
+			applicationComponent.subscribeNav(navComponent)
+		}
+		this.push(navComponent)
+		return navComponent
+	}
+
 	createRootComponent(name,options){
 		const root= new view.rootComponent(name,options)
 		this.push(root)
@@ -65,12 +75,21 @@ class Scenario{
 		}
 	}
 
+	findNodeByType(type){
+		for(let i = 0; i<this.content.length; i++){
+			if(this.content[i].getType() === type){
+				return this.content[i]
+			}
+		}
+		return false
+	}
 	findNode(nodeId){
 		for(let i = 0; i<this.content.length; i++){
 			if(this.content[i].getNodeId() === nodeId){
 				return this.content[i]
 			}
 		}
+		return false
 	}
 
 	createReducer(name){
@@ -96,20 +115,36 @@ class Scenario{
 		return this.findNode('index')
 	}
 
+	nav(){
+		return this.findNodeByType('navComponent')
+	}
+
 	addRouterTree(component){
 		this.app().addTree(component.getRoute())
 		this.addLocalDependency(this.app(), component)
-		parseAndAdd(this.app())
+		parseAndAdd(this.app(),'<Routes>','</Routes>', this.app().generateJsxRouting())
 	}
 
 	addChildRoute(parent,newBorn){
 		this.app().addChildRoute(parent.getRoute(),newBorn.getRoute())
 		this.addLocalDependency(this.app(), newBorn)
-		parseAndAdd(this.app())
+		parseAndAdd(this.app(),'<Routes>', '</Routes>',this.app().generateJsxRouting())
+	}
+
+	createLinksNavbar(){
+		const nav=this.nav()
+		if(nav){
+			return nav.createMap()
+		}
+		return console.log('Error: No navComponent detected!')
 	}
 
 	buildRoutes(){
-		this.app().generateJsxRouting()
+		const app=this.app()
+		if(app){
+			return app.generateJsxRouting()
+		}
+		return console.log('Error: No applicationComponent detected!')
 	}
 
 
