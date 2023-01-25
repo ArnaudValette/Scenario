@@ -3,7 +3,7 @@ const contents=require('../components/content')
 const {dependencies}=require('../dependencies/index')
 
 function generateImport(parent,newBorn){
-	const fullPath = findRelativeLocation(parent.location, newBorn.location)
+	const fullPath = findRelativeLocation(parent, newBorn)
 	return `import ${newBorn.getNodeId()} from "${fullPath}${newBorn.getNodeId()}"`
 }
 
@@ -41,10 +41,10 @@ function translateToComponent(component){
 }
 
 
-function findRelativeLocation(pLoc,cLoc){
-	const p = findLevel(pLoc)
-	const c = findLevel(cLoc)
-	return p<c ? `./${cLoc}/` : p>c ? `../` : pLoc === cLoc ? `./` : `../${cLoc}/`
+function findRelativeLocation(par,chi){
+	const p = findLevel(par.getLocation())
+	const c = findLevel(chi.getLocation())
+	return p<c ? `./${chi.getLocation()}/${chi.getNodeId()}/` : p>c ? `../../` : par.getLocation() === chi.getLocation() ? `./` : `../../${chi.getLocation()}/${chi.getNodeId()}/`
 }
 
 function findLevel(loc){

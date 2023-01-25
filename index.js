@@ -6,6 +6,7 @@ generatePublic.generateHtmlRoot('frontend', 'this is a frontend')
 generatePublic.generateRobots()
 
 const s = new Scenario()
+
 const {index, app} = generateSrc(s)
 
 const Layout=s.createRouteComponent('Layout', {type:'layoutComponent', dependencies:[]})
