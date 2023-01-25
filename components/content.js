@@ -1,12 +1,11 @@
-function reducerComponent(name){
-	return `const ${name}={
+function head(component){
+	return `function ${component.getNodeId()}(){`
 }
 
-export default ${name}`
-}
 
 function rootComponent(component){
-	return `const reducers = combineReducers({
+	return `
+const reducers = combineReducers({
 })
 
 const store=createStore(reducers)
@@ -24,7 +23,7 @@ root.render(
 }
 
 function applicationComponent(component){
-	return `function ${component.getNodeId()}(){
+	return `${head(component)}
 	return(
 		<>
 		</>
@@ -35,7 +34,7 @@ function applicationComponent(component){
 }
 
 function navComponent(component){
-	return `function ${component.getNodeId()}(){
+	return `${head(component)}
 	return(
 		<nav>
 		</nav>
@@ -45,7 +44,7 @@ function navComponent(component){
 }
 
 function genericComponent(component){
-	return `function ${component.getNodeId()}(){
+	return `${head(component)}
 	return(
 	<div className='${component.getNodeId()}'>
 	</div>
@@ -55,17 +54,19 @@ function genericComponent(component){
 
 }
 
-function reducerStructure(name){
-	return `function ${name}(state='',action){
-	switch(action.type){
-		default:
-			return state
-	}
-}`
+function routeComponent(component){
+	return `${head(component)}
+	return(
+	<div className='${component.getNodeId()}'>
+	</div>
+	)
+}
+`
+
 }
 
 function layoutComponent(component){
-	return `function ${component.getNodeId()}(){
+	return `${head(component)}
 	return(
 	<div className='${component.getNodeId()}'>
 		<header>
@@ -79,15 +80,21 @@ function layoutComponent(component){
 `
 
 }
-function routeComponent(component){
-	return `function ${component.getNodeId()}(){
-	return(
-	<div className='${component.getNodeId()}'>
-	</div>
-	)
-}
-`
 
+function reducerComponent(name){
+	return `const ${name}={
+}
+
+export default ${name}`
+}
+
+function reducerStructure(name){
+	return `function ${name}(state='',action){
+	switch(action.type){
+		default:
+			return state
+	}
+}`
 }
 
 module.exports={
