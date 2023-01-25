@@ -3,7 +3,10 @@ const path = require('path')
 const {log}=require('./tools')
 
 function handlePath(component){
-	return path.join(process.cwd(),'./template/src/',component.getLocation()==='root'?'.':`components/${component.getNodeId()}`)
+	return path.join(process.cwd(),'./template/src/',component.getLocation()==='root'
+		?'.'
+		: `${component.getLocation()}/${component.getNodeId()}`
+			)
 }
 
 function handleFile(component,extension){

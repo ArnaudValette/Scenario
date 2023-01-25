@@ -39,8 +39,36 @@ function genericComponent(component){
 
 }
 
+function layoutComponent(component){
+	return `function ${component.getNodeId()}(){
+	return(
+	<div className='${component.getNodeId()}'>
+		<header>
+		</header>
+		<main>
+			<Outlet/>
+		</main>
+	</div>
+	)
+}
+`
+
+}
+function routeComponent(component){
+	return `function ${component.getNodeId()}(){
+	return(
+	<div className='${component.getNodeId()}'>
+	</div>
+	)
+}
+`
+
+}
+
 module.exports={
 	rootComponent,
 	applicationComponent,
 	genericComponent,
+	layoutComponent,
+	routeComponent,
 }

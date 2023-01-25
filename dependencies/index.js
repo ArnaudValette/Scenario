@@ -6,6 +6,10 @@ const applicationComponent=[
 	'Routes',
 ]
 
+const layoutComponent=[
+	'Outlet'
+]
+
 const dependencies={
 	react : `import react from 'react'`,
 	reactDOMClient :`import * as ReactDOMClient from 'react-dom/client'`,
@@ -14,10 +18,12 @@ const dependencies={
 	reducer :`import reducer from './reducers/reducer'`,
 	Router:`import {BrowserRouter as Router} from 'react-router-dom'`,
 	Routes:`import {Routes,Route} from 'react-router-dom'`,
+	Outlet:`import {Outlet} from 'react-router-dom'`
 }
 
 module.exports={
 	rootComponent,
 	applicationComponent,
+	layoutComponent,
 	dependencies,
 }

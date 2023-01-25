@@ -38,18 +38,27 @@ class Scenario{
 		return component
 	}
 
+	createRoute(component, location){
+		return new Route(component,location)
+	}
+
+	createRouteComponent(name,options){
+		const route= new view.routeComponent(name,options)
+		this.push(route)
+		return route
+	}
+
 	addLocalDependency(parent,child){
 		parent.addLocalDependency(child)
 		this.updateImports(parent,child, {flags : 'u'})
 	}
 
-	removeNode(nodeId){
-		const target = this.findNode(nodeId)
-		this.#eraseFile(target)
+	removeNode(component){
+		this.#eraseFile(component)
 		const tempContent=[...this.content]
 		this.content=[]
 		for(let i=0;i<tempContent.length;i++){
-			if(tempContent[i].getNodeId()!==nodeId){
+			if(tempContent[i].getNodeId()!==component.getNodeId()){
 				this.push(tempContent[i])
 			}
 		}
@@ -68,15 +77,15 @@ class Scenario{
 		return this.findNode('App')
 	}
 
-	addRouterTree(newTree){
-		this.app().addTree(newTree)
-		this.addLocalDependency(this.app(), newTree.component)
+	addRouterTree(component){
+		this.app().addTree(component.getRoute())
+		this.addLocalDependency(this.app(), component)
 		parseAndAdd(this.app())
 	}
 
 	addChildRoute(parent,newBorn){
-		this.app().addChildRoute(parent,newBorn)
-		this.addLocalDependency(this.app(), newBorn.component)
+		this.app().addChildRoute(parent.getRoute(),newBorn.getRoute())
+		this.addLocalDependency(this.app(), newBorn)
 		parseAndAdd(this.app())
 	}
 
@@ -84,9 +93,6 @@ class Scenario{
 		this.app().generateJsxRouting()
 	}
 
-	createRoute(component, location){
-		return new Route(component,location)
-	}
 
 	be(){
 		console.log(this)
