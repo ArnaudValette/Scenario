@@ -38,10 +38,20 @@ s.index().logReducers()
 //add navbar creation via routes 
 //
 //TODO:
-//add reducer file generation
-//createReducer should create a file structured as follows :
-//const ${name}={
+//allow reducer to change its content:
+//when feedReducer is called,
+//one should A) append 
+//function ${name}(state='', action){
+// 	switch(action.type){
+// 		default:
+// 			return state
+// 	}
+//}
+//
+//ANDDD B)
+//
+//parseBetween const ${name}={
 //
 //}
 //
-//export default ${name}
+//to add a new entry in this list

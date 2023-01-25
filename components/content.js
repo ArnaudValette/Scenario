@@ -46,6 +46,15 @@ function genericComponent(component){
 
 }
 
+function reducerStructure(name){
+	return `function ${name}(state='',action){
+	switch(action.type){
+		default:
+			return state
+	}
+}`
+}
+
 function layoutComponent(component){
 	return `function ${component.getNodeId()}(){
 	return(
@@ -79,4 +88,5 @@ module.exports={
 	layoutComponent,
 	routeComponent,
 	reducerComponent,
+	reducerStructure,
 }

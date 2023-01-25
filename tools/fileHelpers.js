@@ -46,8 +46,8 @@ function deleteFromJsx(component , data, target){
 	*/
 }
 
-function writeJsx(component, data){
-	fs.writeFileSync(handleFile(component, '.jsx'), data.join('\n'))
+function writeJsx(component, data, extension){
+	fs.writeFileSync(handleFile(component, extension?extension:'.jsx'), data.join('\n'))
 		/*
 	return new Promise((resolve,reject)=>{
 		const writer = fs.createWriteStream(handleFile(component,'.jsx'),{
