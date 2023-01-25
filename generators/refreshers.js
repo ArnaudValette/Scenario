@@ -2,6 +2,13 @@ const {readFile, writeJsx, deleteFromJsx}=require('../tools/fileHelpers')
 const {generateImport} = require('./generateComponent')
 
 
+function refreshReducersImports(parent, importStr){
+	const data= readFile(parent, '.jsx')
+	if(!importAlreadyThere(data,importStr)){
+		return writeJsx(parent,[importStr,data])
+	}
+}
+
 function refreshImports(parent, newBorn, options){
 	const data = readFile(parent,'.jsx')
 	const importStr = generateImport(parent,newBorn)
@@ -21,7 +28,6 @@ function refreshImports(parent, newBorn, options){
 		default:
 			return
 	}
-
 }
 
 function importAlreadyThere(data,str,test){
@@ -52,4 +58,5 @@ TODO: use this to delete unwanted imports
 */
 module.exports={
 	refreshImports,
+	refreshReducersImports,
 }

@@ -1,6 +1,6 @@
 const view=require('./view')
 const {translateToComponent}=require('../generators/generateComponent')
-const {refreshImports}=require('../generators/refreshers')
+const {refreshImports,refreshReducersImports}=require('../generators/refreshers')
 const {Route}=require('./view')
 const {parseAndAdd}=require('../tools/parseHelpers')
 
@@ -72,9 +72,25 @@ class Scenario{
 		}
 	}
 
+	createReducer(name){
+		const reducer = new Reducer(name)
+		this.index().addReducer(reducer)
+		refreshReducersImports(this.index(),reducer.getImport())
+		return reducer
+	}
+
+	feedReducer(reducer, name){
+		reducer.push(name)
+		//refreshCombineReducers(this.index(),reducer.getEntries())
+	}
+
 	//Specific to applicationComponent:
 	app(){
 		return this.findNode('App')
+	}
+
+	index(){
+		return this.findNode('index')
 	}
 
 	addRouterTree(component){
@@ -89,13 +105,39 @@ class Scenario{
 		parseAndAdd(this.app())
 	}
 
-	displayRouter(){
+	buildRoutes(){
 		this.app().generateJsxRouting()
 	}
 
 
 	be(){
 		console.log(this)
+	}
+}
+
+class Reducer{
+	name
+	location
+	content=[]
+	constructor(name){
+		this.name=name
+		this.location='reducer'
+	}
+
+	push(name){
+		this.content.push(name)
+	}
+
+	getName(){
+		return this.name
+	}
+
+	getImport(){
+		return `import ${this.name} from './reducer/${this.name}.js'`
+	}
+
+	getEntries(){
+		return this.content.map((el)=>`${el}:${this.name}.${el},\n`)
 	}
 }
 

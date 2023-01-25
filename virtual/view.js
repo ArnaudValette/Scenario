@@ -84,10 +84,25 @@ class component{
 }
 
 class rootComponent extends component{
+	reducers={}
 	constructor(name,options){
 		super(name,options)
 		this.location='root'
 		this.type='rootComponent'
+	}
+
+	addReducer(reducer){
+		this.reducers[reducer.getName()]=reducer
+	}
+	logReducers(){
+		for(const [key,value] of Object.entries(this.reducers)){
+			console.log(value.getName())
+			console.log(value.getImport())
+			console.log(value.getEntries())
+		}
+	}
+	generateStore(){
+
 	}
 }
 

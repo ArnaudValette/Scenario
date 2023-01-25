@@ -45,6 +45,7 @@ function deleteFromJsx(component , data, target){
 	})
 	*/
 }
+
 function writeJsx(component, data){
 	fs.writeFileSync(handleFile(component, '.jsx'), data.join('\n'))
 		/*
