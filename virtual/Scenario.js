@@ -1,4 +1,5 @@
 const view=require('./view')
+const {translateToReducer}=require('../generators/generateReducer')
 const {translateToComponent}=require('../generators/generateComponent')
 const {refreshImports,refreshReducersImports}=require('../generators/refreshers')
 const {Route}=require('./view')
@@ -76,6 +77,7 @@ class Scenario{
 		const reducer = new Reducer(name)
 		this.index().addReducer(reducer)
 		refreshReducersImports(this.index(),reducer.getImport())
+		translateToReducer(reducer)
 		return reducer
 	}
 
@@ -119,11 +121,18 @@ class Reducer{
 	name
 	location
 	content=[]
+	nodeId
+	type
 	constructor(name){
 		this.name=name
+		this.nodeId=name
 		this.location='reducer'
+		this.type='reducerComponent'
 	}
 
+	getType(){
+		return this.type
+	}
 	push(name){
 		this.content.push(name)
 	}
@@ -133,11 +142,19 @@ class Reducer{
 	}
 
 	getImport(){
-		return `import ${this.name} from './reducer/${this.name}.js'`
+		return `import ${this.name} from './reducer/${this.name}/${this.name}.js'`
 	}
 
 	getEntries(){
 		return this.content.map((el)=>`\t${el}:${this.name}.${el},`)
+	}
+	
+	getNodeId(){
+		return this.nodeId
+	}
+
+	getLocation(){
+		return this.location
 	}
 }
 

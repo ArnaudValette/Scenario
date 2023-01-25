@@ -79,6 +79,7 @@ function createFile(component, content, extension){
 		}
 		if(!fs.existsSync(handleFile(component,extension))){
 			fs.writeFileSync(handleFile(component,extension),content)
+			if(extension==='.js'){log('reducer')}
 			return log('file successfully created')
 		}
 		return log('File already exists')
