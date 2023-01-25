@@ -2,7 +2,7 @@ const view=require('./view')
 const {translateToComponent}=require('../generators/generateComponent')
 const {refreshImports,refreshReducersImports}=require('../generators/refreshers')
 const {Route}=require('./view')
-const {parseAndAdd}=require('../tools/parseHelpers')
+const {parseAndAdd, parseStartEndAndAppendBetweenInFile}=require('../tools/parseHelpers')
 
 class Scenario{
 	content=[]
@@ -81,7 +81,7 @@ class Scenario{
 
 	feedReducer(reducer, name){
 		reducer.push(name)
-		//refreshCombineReducers(this.index(),reducer.getEntries())
+		parseStartEndAndAppendBetweenInFile(this.index(), `combineReducers({`, `})`,reducer.getEntries())
 	}
 
 	//Specific to applicationComponent:
@@ -137,7 +137,7 @@ class Reducer{
 	}
 
 	getEntries(){
-		return this.content.map((el)=>`${el}:${this.name}.${el},\n`)
+		return this.content.map((el)=>`\t${el}:${this.name}.${el},`)
 	}
 }
 

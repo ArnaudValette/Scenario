@@ -1,6 +1,5 @@
 function rootComponent(component){
 	return `const reducers = combineReducers({
-	user:reducer.user,
 })
 
 const store=createStore(reducers)

@@ -18,6 +18,17 @@ function parseAndAdd(application){
 	
 }
 
+function parseStartEndAndAppendBetweenInFile(indexComponent, startStr,endStr, arrOfData){
+	const content= readFile(indexComponent,'.jsx').split('\n')
+	const [start,end] = parse(content,{getInRange:{start:startStr, end:endStr}})
+	if(start === -1 || end === -1 ) return
+	const innerData=content.slice(start+1,end)
+	const newData=innerData.concat(arrOfData)
+	let result= [... new Set(newData.flat())]
+	return addAtIndex({start:start+1,end}, content, result,indexComponent)
+}
+
+
 function addAtIndex(index, data, add,application){
 	const result=[...data.slice(0,index.start),...add,...data.slice(index.end,data.length) ]
 	writeJsx(application, result)
@@ -35,6 +46,27 @@ function parse(data, options){
 			}
 		}
 		return -1
+	}
+	if(options.getInRange){
+		const start = options.getInRange.start
+		const end = options.getInRange.end
+		let startIndex=undefined
+		let endIndex=undefined
+		for(let i=0; i<data.length; i++){
+			if(contains(data[i],start)){
+				startIndex=i
+			}
+		}
+
+		if(startIndex === undefined) return [-1,-1]
+		for(let j = startIndex; j<data.length; j++){
+			if(contains(data[j], end)){
+				endIndex=j
+			}
+		}
+
+		if(endIndex === undefined) return [-1,-1]
+		return [startIndex, endIndex]
 	}
 }
 
@@ -56,5 +88,6 @@ function contains(readLine,target){
 
 module.exports={
 	parseAndAdd,
+	parseStartEndAndAppendBetweenInFile,
 }
 
