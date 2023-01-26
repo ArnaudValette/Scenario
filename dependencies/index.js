@@ -1,5 +1,5 @@
 const rootComponent=[
-	'react', 'reactDOMClient', 'Provider', 'createStore','Router'
+	 'reactDOMClient', 'Provider', 'createStore','Router','core','regen'
 ]
 
 const applicationComponent=[
@@ -20,7 +20,7 @@ const customHook=[
 
 const dependencies={
 	hooks: `import {useState,useEffect} from 'react'`,
-	react : `import react from 'react'`,
+	react : `import React from 'react'`,
 	reactDOMClient :`import * as ReactDOMClient from 'react-dom/client'`,
 	Provider:`import {Provider} from 'react-redux'`,
 	createStore:`import {createStore,combineReducers} from 'redux'`,
@@ -28,6 +28,8 @@ const dependencies={
 	Routes:`import {Routes,Route} from 'react-router-dom'`,
 	Outlet:`import {Outlet} from 'react-router-dom'`,
 	Link:`import {Link} from 'react-router-dom'`,
+	core:`import 'core-js/stable/index.js'`,
+	regen:`import 'regenerator-runtime/runtime.js'`
 }
 
 module.exports={
