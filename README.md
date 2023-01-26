@@ -16,7 +16,7 @@
   * - [x] Automatic creation of Route **element** (with nesting)
   * - [x] Automatic creation of <Route> logic inside App.jsx
   * - [x] Creation of a Menu component based on the Route logic
-  * - [ ] Generation of custom-hook skeletons
+  * - [x] Generation of custom-hook skeletons
   
 # Example :
 
@@ -206,6 +206,33 @@ To do so:
 s.createNavComponent('Menu', {type:'navComponent'})
 s.createLinksNavbar()
 ```
+## Custom Hooks :
+### Generating a custom hook:
+
+Custom hooks, located in *./template/src/hook/-nameOfTheHook-/*
+can be created with the following method :
+```
+const logout = s.createHook('logout')
+```
+
+You can add them as dependency to another component like this :
+```
+s.addLocalDependency(test3,logout)
+```
+
+Note that the parameter string 'name' is handled to correspond to what kind 
+of names react accepts as custom hook (i.e. something that begins with 'use' and ends 
+with a capitalized string)
+
+```
+//creates a hook named useLogout
+s.createHook('logout')
+//creates a hook named useLogout
+s.createHook('Logout')
+//creates a hook named useLogout
+s.createHook('useLogout')
+``` 
+ 
 
 ## Redux:
 

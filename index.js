@@ -65,7 +65,7 @@ s.addChildRoute(Layout2, test5)
 
 //*********************************************
 //___Deprecated:
-s.buildRoutes()
+//s.buildRoutes()
 
 
 //*********************************************
@@ -91,6 +91,14 @@ s.createNavComponent('Menu', {type:'navComponent', dependencies:[]})
 s.createLinksNavbar()
 
 
+//*******************************************
+//_____This creates a customHook file
+//_____That's not totally useful due to variety
+//_____of customHooks that can be created
+const logout = s.createHook('logout')
+s.addLocalDependency(test3,logout)
+const useSomething= s.createHook('useSomething')
+s.addLocalDependency(test3, useSomething)
 
 
 

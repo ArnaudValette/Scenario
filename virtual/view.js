@@ -8,11 +8,14 @@ class component{
 	nodeId
 	location
 	type
+	noCss
+
 	constructor(name,options){
 		this.moduleDependencies=deps[options.type]
 		this.nodeId=name
-		this.location='component'
-		this.type='genericComponent'
+		this.location=options.location? options.location : 'component'
+		this.type=options.type? options.type: 'genericComponent'
+		this.noCss=options.noCss?true:false
 	}
 
 	#addParentDependency(component){
@@ -33,6 +36,10 @@ class component{
 			}
 		}
 		this.localDependencies=newLocalDependencies
+	}
+
+	needCss(){
+		return !this.noCss
 	}
 
 	removeSelf(scenario){

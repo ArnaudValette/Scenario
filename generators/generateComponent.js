@@ -8,7 +8,10 @@ function generateImport(parent,newBorn){
 }
 
 function generateMandatoryImports(component){
-	return `import './${component.getNodeId()}.css'\n`
+	if(component.needCss()==='customHook'){
+		return `import './${component.getNodeId()}.css'\n`
+	}
+	return ''
 }
 
 function generateModuleImports(component){
@@ -37,7 +40,9 @@ function translateToComponent(component){
 	const moduleImports = generateModuleImports(component)
 	const mandatoryImports= generateMandatoryImports(component)
 	fileHelpers.createFile(component, `${mandatoryImports}${moduleImports}${content}${defaultExport}`, '.jsx')
-	fileHelpers.createFile(component, '', '.css')
+	if(component.needCss()){
+		fileHelpers.createFile(component, '', '.css')
+	}
 }
 
 

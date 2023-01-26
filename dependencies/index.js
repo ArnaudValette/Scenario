@@ -14,7 +14,12 @@ const navComponent=[
 	'Link'
 ]
 
+const customHook=[
+	'hooks'
+]
+
 const dependencies={
+	hooks: `import {useState,useEffect} from 'react'`,
 	react : `import react from 'react'`,
 	reactDOMClient :`import * as ReactDOMClient from 'react-dom/client'`,
 	Provider:`import {Provider} from 'react-redux'`,
@@ -31,4 +36,5 @@ module.exports={
 	layoutComponent,
 	dependencies,
 	navComponent,
+	customHook,
 }

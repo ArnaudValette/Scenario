@@ -1,5 +1,5 @@
 function head(component){
-	return `function ${component.getNodeId()}(){`
+	return `function ${component.getNodeId()}(props){`
 }
 
 
@@ -46,19 +46,31 @@ function navComponent(component){
 function genericComponent(component){
 	return `${head(component)}
 	return(
-	<div className='${component.getNodeId()}'>
-	</div>
+		<div className='${component.getNodeId()}'>
+		</div>
 	)
 }
 `
+}
 
+function customHook(component){
+	return `${head(component)}
+	const [state,setState]=useState()
+	useEffect(()=>{
+
+	},[])
+	return {
+		state,
+		setState
+	}
+}`
 }
 
 function routeComponent(component){
 	return `${head(component)}
 	return(
-	<div className='${component.getNodeId()}'>
-	</div>
+		<div className='${component.getNodeId()}'>
+		</div>
 	)
 }
 `
@@ -106,4 +118,5 @@ module.exports={
 	reducerComponent,
 	reducerStructure,
 	navComponent,
+	customHook,
 }

@@ -22,6 +22,7 @@ class Scenario{
 	}
 
 	createNavComponent(name,options){
+		name=name.charAt(0).toUpperCase().concat(name.slice(1))
 		const navComponent= new view.navComponent(name,options)
 		const applicationComponent=this.app()
 		if(applicationComponent){
@@ -38,15 +39,29 @@ class Scenario{
 	}
 
 	createAppComponent(name,options){
+		name=name.charAt(0).toUpperCase().concat(name.slice(1))
 		const app= new view.appComponent(name,options)
 		this.push(app)
 		return app
 	}
 
 	createComponent(name,options){
+		name=name.charAt(0).toUpperCase().concat(name.slice(1))
 		const component= new view.component(name,options)
 		this.push(component)
 		return component
+	}
+
+	createHook(name){
+		if(name.substring(0,3)!=='use'){
+			name='use'.concat(name.charAt(0).toUpperCase().concat(name.slice(1)))
+		}
+		else{
+			name=name.slice(0,3).concat(name.charAt(3).toUpperCase().concat(name.slice(4)))
+		}
+		const hook= new view.component(name, {noCss:true,type:'customHook', location:'hook'})
+		this.push(hook)
+		return hook
 	}
 
 	createRoute(component, location){
@@ -54,6 +69,7 @@ class Scenario{
 	}
 
 	createRouteComponent(name,options){
+		name=name.charAt(0).toUpperCase().concat(name.slice(1))
 		const route= new view.routeComponent(name,options)
 		this.push(route)
 		return route
