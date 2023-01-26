@@ -35,11 +35,12 @@ function generateDefaultExport(name){
 
 function translateToComponent(component){
 	//TODO:generateModuleExports
+	const extension=component.getType()==='rootComponent'?'.js':'.jsx'
 	const content= generateContent(component)
 	const defaultExport = generateDefaultExport(component.getNodeId())
 	const moduleImports = generateModuleImports(component)
 	const mandatoryImports= generateMandatoryImports(component)
-	fileHelpers.createFile(component, `${mandatoryImports}${moduleImports}${content}${defaultExport}`, '.jsx')
+	fileHelpers.createFile(component, `${mandatoryImports}${moduleImports}${content}${defaultExport}`, extension)
 	if(component.needCss()){
 		fileHelpers.createFile(component, '', '.css')
 	}

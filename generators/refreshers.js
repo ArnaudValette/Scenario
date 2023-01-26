@@ -10,19 +10,20 @@ function refreshReducersImports(parent, importStr){
 }
 
 function refreshImports(parent, newBorn, options){
-	const data = readFile(parent,'.jsx')
+	const extension = parent.getType()==='rootComponent'? '.js':'.jsx'
+	const data = readFile(parent,extension)
 	const importStr = generateImport(parent,newBorn)
 	switch(options.flags){
 
 		case 'u':
 		if(!importAlreadyThere(data, importStr)){
-			return writeJsx(parent ,[importStr, data])
+			return writeJsx(parent ,[importStr, data],extension)
 		}
 			break;
 
 		case 'r':
 			if(importAlreadyThere(data,importStr,true)){
-				return deleteFromJsx(parent , data, importStr)
+				return deleteFromJsx(parent , data, importStr,extension)
 			}
 				break;
 		default:

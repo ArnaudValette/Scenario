@@ -3,3 +3,4 @@ node_modules/
 template/public
 template/src
 .todo
+template/build/*

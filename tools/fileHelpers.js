@@ -14,10 +14,11 @@ function handleFile(component,extension){
 }
 
 function readFile(component, extension){
+	if(component.getType()==='rootComponent') extension='.js'
 	return fs.readFileSync(handleFile(component,extension), 'utf-8')
 }
 
-function deleteFromJsx(component , data, target){
+function deleteFromJsx(component , data, target,extension){
 	const newData=data.split('\n')
 	let result=[]
 	for(let i = 0; i < newData.length; i++){
@@ -26,7 +27,7 @@ function deleteFromJsx(component , data, target){
 		}
 	}
 	
-	fs.writeFileSync(handleFile(component, '.jsx'), result.join('\n'))
+	fs.writeFileSync(handleFile(component, extension), result.join('\n'))
 	/*
 	return new Promise((resolve,reject)=>{
 		const writer=fs.createWriteStream(handleFile(component, '.jsx'),{
@@ -47,6 +48,7 @@ function deleteFromJsx(component , data, target){
 }
 
 function writeJsx(component, data, extension){
+	if(component.getType()==='rootComponent')extension='.js'
 	fs.writeFileSync(handleFile(component, extension?extension:'.jsx'), data.join('\n'))
 		/*
 	return new Promise((resolve,reject)=>{
