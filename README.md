@@ -17,6 +17,8 @@
   * - [x] Automatic creation of <Route> logic inside App.jsx
   * - [x] Creation of a Menu component based on the Route logic
   * - [x] Generation of custom-hook skeletons
+  * - [ ] Possibility to add custom components to your own Scenario config via an automated scanner tool 
+  * - [ ] Private and Public component stores 
   
 # Example :
 
